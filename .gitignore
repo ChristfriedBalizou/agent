@@ -1,0 +1,5 @@
+# Avoid virtualenv directory
+.venv
+
+# Avoid vim swap files
+*.sw*
