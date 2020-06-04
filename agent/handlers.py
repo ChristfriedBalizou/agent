@@ -1,5 +1,19 @@
+import os
 import shutil
 from subprocess import PIPE, Popen
+
+
+def repository_name(repository):
+    """This function take as input a path to the
+    repository and output a repository directory name
+
+    Arguments:
+        repository (str): a file directory path
+
+    Return:
+        a string of the repository name
+    """
+    return os.path.basename(repository)
 
 
 class Command:
