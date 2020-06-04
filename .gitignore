@@ -3,3 +3,6 @@
 
 # Avoid vim swap files
 *.sw*
+
+# Avoid python __pycache__
+__pycache__
