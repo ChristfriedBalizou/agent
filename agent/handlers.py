@@ -13,6 +13,8 @@ def repository_name(repository):
     Return:
         a string of the repository name
     """
+
+    assert os.path.isdir(repository), f"{repository} should be a directory"
     return os.path.basename(repository)
 
 
