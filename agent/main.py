@@ -34,13 +34,13 @@ def main():
     )
 
     parser.add_argument(
-        "repository",
+        "--repository",
         required=True,
         help="The path to the repository directory to handle"
     )
 
     parser.add_argument(
-        "action",
+        "--action",
         choices=(
             "status",
             "start",
@@ -52,5 +52,6 @@ def main():
     options = parser.parse_args()
     action = AgentAction(options.action)
     repository = os.path.normpath(options.repository)
+    service = handlers.Service(repository)
 
-    AGENT_HANDLERS[action](repository)
+    AGENT_HANDLERS[action](service)
