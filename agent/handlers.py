@@ -1,5 +1,6 @@
 import os
 import sys
+import enum
 import shutil
 import traceback
 from subprocess import PIPE, Popen
@@ -11,6 +12,15 @@ WARNING = '\033[93m'
 FAIL = '\033[91m'
 ENDC = '\033[0m'
 BOLD = '\033[1m'
+
+
+class ServiceStat(enum.Enum):
+    """Enumeration of service possible state
+    """
+
+    NONEXISTENT = None
+    RUNNING = True
+    INACTIVE = False
 
 
 def repository_name(repository):
@@ -69,6 +79,7 @@ class Service:
         """
 
         self.name = os.path.basename(repository)
+        self.location = repository
         self.repository = repository
         self.program = Command(program="systemctl")
 
@@ -105,6 +116,16 @@ class Service:
 
             raise exception
 
+    def pprint_status(self):
+        """Use to pretty print service stat
+        """
+        self.program.command(
+            "status",
+            self.name,
+            stdout=sys.stdout,
+            stderr=sys.stderr,
+        )
+
     def start(self):
         raise NotImplementedError("Start function is not Yet implemented")
 
@@ -115,9 +136,15 @@ class Service:
         raise NotImplementedError("Restart function is not Yet implemented")
 
 
-def status(service: Service):
+def status(service: Service) -> ServiceStat:
     """This function check for a status of a given
     service and output the result
+
+    Arguments:
+        service: A Service instance representation
+
+    Return:
+        a ServiceStat representation
     """
     try:
         status = service.status()
@@ -125,18 +152,8 @@ def status(service: Service):
         traceback.print_exc(file=sys.stderr)
         sys.exit(0)
 
-    label = f"{BLUE}Service {service.name}{ENDC}"
-
-    if status is None:
-        print(f"{label}:{FAIL} Not found.{ENDC}", file=sys.stderr)
-
-    if status:
-        print(f"{label}:{BOLD}{GREEN} Running.{ENDC}", file=sys.stdout)
-
-    if status is False:
-        print(f"{label}:{BOLD}{WARNING} Inactive.{ENDC}", file=sys.stdout)
-
-    return status
+    service.pprint_status()
+    return ServiceStat(status)
 
 
 def stop(service: Service):
