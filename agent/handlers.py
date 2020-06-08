@@ -109,7 +109,7 @@ class Service:
             "/etc/systemd/system/{self.name}.service",
         )
 
-    def status(self):
+    def status(self) -> ServiceStat:
         """This function return a given
         service status.
 
@@ -132,13 +132,16 @@ class Service:
                     # Active .* string
                     continue
 
-                return "running" in line
+                if "running" in line:
+                    return ServiceStat.RUNNING
+
+                return ServiceStat.INACTIVE
                 # If the command is Running or not
 
         except Exception as exception:
 
             if isinstance(exception, AssertionError):
-                return None
+                return ServiceStat.NONEXISTENT
 
             raise exception
 
@@ -152,24 +155,7 @@ class Service:
         raise NotImplementedError("Restart function is not Yet implemented")
 
 
-def status(service: Service) -> ServiceStat:
-    """This function check for a status of a given
-    service and output the result
 
-    Arguments:
-        service: A Service instance representation
-
-    Return:
-        a ServiceStat representation
-    """
-    try:
-        status = service.status()
-    except Exception:
-        traceback.print_exc(file=sys.stderr)
-        sys.exit(0)
-
-    service.pprint_status()
-    return ServiceStat(status)
 
 
 def stop(service: Service):
