@@ -1,0 +1,11 @@
+# https://www.freedesktop.org/software/systemd/man/systemd.service.html
+
+[Unit]
+Description={description}
+
+[Service]
+Type=simple
+ExecStart=/bin/make --makefile={makefile} 
+
+[Install]
+WantedBy=multi-user.target

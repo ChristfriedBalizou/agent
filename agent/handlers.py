@@ -14,6 +14,9 @@ ENDC = '\033[0m'
 BOLD = '\033[1m'
 
 
+BASE_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+
+
 class ServiceStat(enum.Enum):
     """Enumeration of service possible state
     """
@@ -146,25 +149,50 @@ class Service:
             raise exception
 
     def start(self):
-        raise NotImplementedError("Start function is not Yet implemented")
+        """This function will create a new service for the
+        current repository
+        """
+
+        self.stop()
+        # First we want to start stopping the service
+        # which will clean an remove any other thing
+
+        with open(os.path.join(BASE_DIRECTORY, "service.template")) as output:
+            template = output.read().format(
+                description=f"Service {self.name}",
+                makefile=os.path.join(self.repository, "Makefile")
+            )
+
+        with open(self.location[0], "w") as out:
+            out.write(template)
+
+        shutil.copy(*self.location)
+        os.chmod(self.location[1], 644)
 
     def stop(self):
-        raise NotImplementedError("Stop function is not Yet implemented")
+        """This function aim to stop a service
+        and completely clear the service files
+
+        The next status of a stopped service will be ServiceStat.NONEXISTENT
+        """
+        if self.status() == ServiceStat.NONEXISTENT:
+            # There is nothing to at this state
+            # the service does not even exist
+            return
+
+        if self.status() == ServiceStat.RUNNING:
+            # The service is running and we need
+            # to stop it
+            self.program.command("stop", self.name)
+
+        if os.path.exists(self.location[0]):
+            os.remove(self.location[0])
+
+        if os.path.exists(self.location[1]):
+            os.remove(self.location[1])
 
     def restart(self):
-        raise NotImplementedError("Restart function is not Yet implemented")
-
-
-
-
-
-def stop(service: Service):
-    pass
-
-
-def start(service: Service):
-    pass
-
-
-def restart(service: Service):
-    pass
+        """This function will simply call the stop and the start function
+        """
+        self.stop()
+        self.start()
