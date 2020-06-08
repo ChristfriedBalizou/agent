@@ -16,14 +16,6 @@ class AgentAction(enum.Enum):
     RESTART = "RESTART"
 
 
-AGENT_HANDLERS = {
-    AgentAction.STATUS: handlers.status,
-    AgentAction.STOP: handlers.stop,
-    AgentAction.START: handlers.start,
-    AgentAction.RESTART: handlers.restart,
-}
-
-
 def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.HelpFormatter,
@@ -54,4 +46,14 @@ def main():
     repository = os.path.normpath(options.repository)
     service = handlers.Service(repository)
 
-    AGENT_HANDLERS[action](service)
+    if action == AgentAction.STOP:
+        service.stop()
+
+    if action == AgentAction.START:
+        service.start()
+
+    if action == AgentAction.RESTART:
+        service.restart()
+
+    if action == AgentAction.STATUS:
+        service.status()
