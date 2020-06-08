@@ -102,9 +102,12 @@ class Service:
         """
 
         self.name = os.path.basename(repository)
-        self.location = repository
         self.repository = repository
         self.program = Command(program="systemctl")
+        self.location = (
+            f"/lib/systemd/system/{self.name}.service",
+            "/etc/systemd/system/{self.name}.service",
+        )
 
     def status(self):
         """This function return a given
