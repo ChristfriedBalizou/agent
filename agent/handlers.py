@@ -38,6 +38,24 @@ def repository_name(repository):
     return os.path.basename(repository)
 
 
+def pprint(func):
+    """This function aim to print the output of the cli command
+    """
+    def wrapper(*args, **kwargs):
+        outs, errs = func(*args, **kwargs)
+
+        if not outs:
+            # YOLO just don't wanted to have a nested for loop
+            return outs, errs
+
+        for line in outs.split("\n"):
+            print(line)
+
+        return outs, errs
+
+    return wrapper
+
+
 class Command:
     """The command class is an Linux command line helper
     base on subprocess which handle shell command output and
@@ -51,6 +69,7 @@ class Command:
         self.program = shutil.which(program)
         assert self.program, f"Can't find installation of: {program}"
 
+    @pprint
     def command(self, *args,  stdout=PIPE, stderr=PIPE, **kwargs):
         """Using subprocess.Popen this function will execute
         the given command line
@@ -59,7 +78,11 @@ class Command:
         communicate = kwargs.pop("communicate", {})
         cmd = (self.program,) + args
 
-        with Popen(cmd, stdout=stdout, stderr=stderr, **kwargs) as proc:
+        with Popen(cmd,
+                   stdout=stdout,
+                   stderr=stderr,
+                   encoding="utf8",
+                   **kwargs) as proc:
             return proc.communicate(**communicate)
 
 
@@ -95,7 +118,7 @@ class Service:
         try:
             outs, errs = self.program.command("status", self.name)
 
-            assert errs == b"", errs
+            assert errs == "", errs
             # We want to raise and exception if an error
             # occur from the command execution
 
@@ -115,16 +138,6 @@ class Service:
                 return None
 
             raise exception
-
-    def pprint_status(self):
-        """Use to pretty print service stat
-        """
-        self.program.command(
-            "status",
-            self.name,
-            stdout=sys.stdout,
-            stderr=sys.stderr,
-        )
 
     def start(self):
         raise NotImplementedError("Start function is not Yet implemented")

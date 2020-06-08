@@ -31,4 +31,4 @@ def test_program_command():
     """
 
     _, errs = Command("systemctl").command("status", "ssh")
-    assert errs == b""
+    assert errs == ""
