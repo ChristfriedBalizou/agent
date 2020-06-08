@@ -1,8 +1,6 @@
 import os
-import sys
 import enum
 import shutil
-import traceback
 from subprocess import PIPE, Popen
 
 
@@ -168,6 +166,8 @@ class Service:
 
         shutil.copy(*self.location)
         os.chmod(self.location[1], 644)
+
+        self.program.command("start", self.name)
 
     def stop(self):
         """This function aim to stop a service
