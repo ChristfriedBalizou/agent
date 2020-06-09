@@ -1,19 +1,8 @@
 import os
-import enum
 import argparse
 
 from agent import handlers
-
-
-class AgentAction(enum.Enum):
-    """This class is a simple enumeration
-    of the possible action to perform by the agent
-    """
-
-    STATUS = "status"
-    START = "start"
-    STOP = "stop"
-    RESTART = "RESTART"
+from agent.handlers import AgentAction
 
 
 def main():
