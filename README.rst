@@ -7,7 +7,65 @@ This package will perform the following actions:
 - start
 - restart
 
+Installation
+------------
 
+.. code:: bash
+    
+   pip install git+https://github.com/ChristfriedBalizou/agent.git@master
+   
+   # or
+   
+   git clone https://github.com/ChristfriedBalizou/agent.git
+   python agent/setup.py install
+
+
+Usage
+-----
+
+.. code:: bash
+    
+    # to get status of a service
+    python agent --repository <path to your directory> --action status
+    
+    # to start a service
+    python agent --repository <path to your directory> --action start
+    
+    # use --service notify or simple (default: simple) to start you service
+    # Note that for notify you need to develop a notify function
+    # "systemd-notify --ready" which should notify the service manager for liveness
+   
+.. code:: python
+
+    from agent.service import Service, ServiceStat
+    
+    service = Service("your direcory")
+    
+    service.stop()
+    assert service.status() == ServiceStat.NONEXISTENT
+    
+    service.start()
+    assert service.status() == ServiceStat.RUNNING
+
+::
+
+    usage: agent [-h] --repository REPOSITORY
+                 [--action {status,start,stop,restart}]
+                 [--service-type {notify,simple}]
+
+    Generate a Linux service to handle deployment of a given repository
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --repository REPOSITORY
+                            The path to the repository directory to handle
+      --action {status,start,stop,restart}
+      --service-type {notify,simple}
+                            The type of service to create please visit systemd
+                            service In you choose notify you must create a notify
+                            function every 5s.
+
+    
 Context
 -------
 
