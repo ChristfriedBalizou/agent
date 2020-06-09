@@ -1,3 +1,6 @@
+Context
+-------
+
 The agent package aim to easily create a Linux (systemd) service.
 
 This package will perform the following actions:
@@ -6,6 +9,39 @@ This package will perform the following actions:
 - stop
 - start
 - restart
+
+This package is developed for my personal use. Being working in collaboration
+with some freinds we wanted to be able to deploy continuosly (prod and dev)
+based on commits or tags. Docker and Kubernetes are the first which pops. We
+decide to use systemd-service for the simple reason it does exactly what we need
+whitout the need of installing and managing an external application. Lunix is
+safer and provide all we need.
+
+Each project must contain a Makefile with a "all" or "DEFAULT_GOAL" or "PHONY"
+case. The service ExecStart will only execute:
+
+.. code:: bash
+    
+    make --makefile=<path to your makefile>
+    
+
+Also You should implement a notify function which will call systemd-notify is
+you choose to use a service type notify. This will automatically restart your
+service when down or broken.
+
+Note: we are working on an agent based on https://wiki.archlinux.org/index.php/systemd-nspawn.
+
+
+Requirements
+------------
+
+To use this package you must:
+   - Use a Linux machine (tested with debian buster)
+   - The user should be chown /lib/systemd/system and /etc/systemd/system
+   - Make sure you have systemd
+   - python3 (tested and wrote with python3.7)
+   - Your project directory must have a Makefile
+
 
 Installation
 ------------
@@ -64,42 +100,6 @@ Usage
                             The type of service to create please visit systemd
                             service In you choose notify you must create a notify
                             function every 5s.
-
-    
-Context
--------
-
-This package is developed for my personal use. Being working in collaboration
-with some freinds we wanted to be able to deploy continuosly (prod and dev)
-based on commits or tags. Docker and Kubernetes are the first which pops. We
-decide to use systemd-service for the simple reason it does exactly what we need
-whitout the need of installing and managing an external application. Lunix is
-safer and provide all we need.
-
-Each project must contain a Makefile with a "all" or "DEFAULT_GOAL" or "PHONY"
-case. The service ExecStart will only execute:
-
-.. code:: bash
-    
-    make --makefile=<path to your makefile>
-    
-
-Also You should implement a notify function which will call systemd-notify is
-you choose to use a service type notify. This will automatically restart your
-service when down or broken.
-
-Note: we are working on an agent based on https://wiki.archlinux.org/index.php/systemd-nspawn.
-
-
-Requirements
-------------
-
-To use this package you must:
-   - Use a Linux machine (tested with debian buster)
-   - The user should be chown /lib/systemd/system and /etc/systemd/system
-   - Make sure you have systemd
-   - python3 (tested and wrote with python3.7)
-   - Your project directory must have a Makefile
 
 
 Service
