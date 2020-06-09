@@ -48,7 +48,7 @@ Installation
 
 .. code:: bash
     
-   pip install git+https://github.com/ChristfriedBalizou/agent.git@master
+   pip install git+https://github.com/ChristfriedBalizou/agent.git#egg=agent
    
    # or
    
