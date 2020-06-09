@@ -8,7 +8,7 @@ def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.HelpFormatter,
         description="""
-        Generate a Linux service and cron job to handle deployment
+        Generate a Linux service to handle deployment
         of a given repository
         """
     )
