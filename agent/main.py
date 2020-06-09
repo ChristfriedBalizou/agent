@@ -1,8 +1,7 @@
 import os
 import argparse
 
-from agent import handlers
-from agent.handlers import AgentAction
+from agent.service import Service, AgentAction
 
 
 def main():
@@ -33,7 +32,7 @@ def main():
     options = parser.parse_args()
     action = AgentAction(options.action)
     repository = os.path.normpath(options.repository)
-    service = handlers.Service(repository)
+    service = Service(repository)
 
     if action == AgentAction.STOP:
         service.stop()
