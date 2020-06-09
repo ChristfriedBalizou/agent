@@ -29,10 +29,21 @@ def main():
         )
     )
 
+    parser.add_argument(
+        "--service-type",
+        choices=("notify", "simple"),
+        default="simple",
+        help="""
+        The type of service to create please visit systemd service
+        In you choose notify you must create a notify function every
+        5s.
+        """
+    )
+
     options = parser.parse_args()
     action = ServiceAction(options.action)
     repository = os.path.normpath(options.repository)
-    service = Service(repository)
+    service = Service(repository, service=options.service_type)
 
     if action == ServiceAction.STOP:
         service.stop()

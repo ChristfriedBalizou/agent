@@ -26,7 +26,6 @@ class ServiceAction(enum.Enum):
     RESTART = "restart"
 
 
-
 class ServiceStat(enum.Enum):
     """Enumeration of service possible state
     """
@@ -105,10 +104,11 @@ class Service:
     and delete a service
     """
 
-    def __init__(self, repository: str):
+    def __init__(self, repository: str, service: str = "simple"):
         """Initiate a ServiceController with the given repository
         Arguments:
-            repository (str): a file directory path
+            repository : a file directory path
+            service: type of service to create
 
         Return:
             a ServiceControler instance
@@ -117,6 +117,7 @@ class Service:
         self.name = os.path.basename(repository)
         self.repository = repository
         self.program = Command(program="systemctl")
+        self.service = service
         self.location = (
             f"/lib/systemd/system/{self.name}.service",
             "/etc/systemd/system/{self.name}.service",
@@ -170,7 +171,8 @@ class Service:
         with open(os.path.join(BASE_DIRECTORY, "service.template")) as output:
             template = output.read().format(
                 description=f"Service {self.name}",
-                makefile=os.path.join(self.repository, "Makefile")
+                makefile=os.path.join(self.repository, "Makefile"),
+                service=self.service
             )
 
         with open(self.location[0], "w") as out:

@@ -4,7 +4,7 @@
 Description={description}
 
 [Service]
-Type=notify
+Type={service}
 ExecStart=/bin/make --makefile={makefile} 
 Restart=always
 RestartSec=1
