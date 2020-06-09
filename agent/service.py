@@ -15,7 +15,7 @@ BOLD = '\033[1m'
 BASE_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
 
-class AgentAction(enum.Enum):
+class ServiceAction(enum.Enum):
     """This class is a simple enumeration
     of the possible action to perform by the agent
     """
@@ -23,7 +23,7 @@ class AgentAction(enum.Enum):
     STATUS = "status"
     START = "start"
     STOP = "stop"
-    RESTART = "RESTART"
+    RESTART = "restart"
 
 
 
