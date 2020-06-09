@@ -1,29 +1,66 @@
 Agent
 =====
 
-The following project aim to continuously deploy a git repository
-directory into production or development environment.
+The agent package aim to easily create a Linux (systemd) service. 
+This package will perform the following actions:
+- status
+- stop
+- start
+- restart
+
 
 Context
 -------
 
-Based on the work done and being a user of Kubernetes and Docker, I wanted to build something lite which use the Linux system standard service and cron job to orchestrate the workflow.
+This package is developed for my personal use. Being working in collaboration
+with some freinds we wanted to be able to deploy continuosly (prod and dev)
+based on commits or tags. Docker and Kubernetes are the first which pops. We
+decide to use systemd-service for the simple reason it does exactly what we need
+whitout the need of installing and managing an external application. Lunix is
+safer and provide all we need.
 
-Linux is a complete environment and the safer I ever used it provide everything to organize your application.
+Each project must contain a Makefile with a "all" or "DEFAULT_GOAL" or "PHONY"
+case. The service ExecStart will only execute:
 
-As this tools you can write your own or do it manually. This tool is here to help me in my personal work to deploy simply pushing a commit or a tag to a repository and trigger a workflow to deploy and handle my application as a Linux service. I could also push further to use `systemd` to create safe containers an run each server in it's own container sharing the computer resource but die and crash alone.
+.. code:::bash
+    make --makefile=<path to your makefile>
 
-An agent will create a service and a cron job for a given application.
+Also You should implement a notify function which will call systemd-notify is
+you choose to use a service type notify. This will automatically restart your
+service when down or broken.
+
+Note: we will be working on a next version based on systemd-spawn which is
+      containers.
+
+
+Requirements
+------------
+
+To use this package you must:
+   - Use a Linux machine (tested with debian buster)
+   - The user should be chown /lib/systemd/system and /etc/systemd/system
+   - Make sure you have systemd
+   - python3 (tested and wrote with python3.7)
+   - Your project directory must have a Makefile
 
 
 Service
 -------
 
-The service will be use as a normal linux service
-status stop start and restart.
+A service can be simple or notify. A notify service type will handle the health
+check as described in .. _SystemdOptions: https://www.freedesktop.org/software/systemd/man/systemd.service.html#Options
 
-Cron
-----
+*We set a timeout of 5s second this can't be currently updated.*
 
-The cron job will watch the repository and if a change occur
-will trigger a workflow update the service and restart the application.
+- status:
+  Will perform a systemctl status <your service>.
+
+- stop:
+  Will stop and delete all systemd services file created.
+
+- start:
+  Will first call stop and create systemd service file for your application.
+  Will then systemd start <your service>
+
+- restart:
+  Will reproduce stop and start.
