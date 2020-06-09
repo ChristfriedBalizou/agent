@@ -1,8 +1,7 @@
-Agent
-=====
+The agent package aim to easily create a Linux (systemd) service.
 
-The agent package aim to easily create a Linux (systemd) service. 
 This package will perform the following actions:
+
 - status
 - stop
 - start
@@ -22,15 +21,16 @@ safer and provide all we need.
 Each project must contain a Makefile with a "all" or "DEFAULT_GOAL" or "PHONY"
 case. The service ExecStart will only execute:
 
-.. code:::bash
+.. code:: bash
+    
     make --makefile=<path to your makefile>
+    
 
 Also You should implement a notify function which will call systemd-notify is
 you choose to use a service type notify. This will automatically restart your
 service when down or broken.
 
-Note: we will be working on a next version based on systemd-spawn which is
-      containers.
+Note: we are working on an agent based on https://wiki.archlinux.org/index.php/systemd-nspawn.
 
 
 Requirements
@@ -48,7 +48,7 @@ Service
 -------
 
 A service can be simple or notify. A notify service type will handle the health
-check as described in .. _SystemdOptions: https://www.freedesktop.org/software/systemd/man/systemd.service.html#Options
+check as described  https://www.freedesktop.org/software/systemd/man/systemd.service.html#Options
 
 *We set a timeout of 5s second this can't be currently updated.*
 
