@@ -2,7 +2,7 @@ import os
 import re
 import codecs
 
-from setuptools import setup, find_package
+from setuptools import setup, find_packages
 
 
 CURRENT_DIRECTORY = os.path.realpath(os.path.dirname(__file__))
@@ -76,7 +76,7 @@ setup(
     author="Christfried BALIZOU",
     author_email="christfriedbalizou@gmail.com",
     license="GPL",
-    packages=find_package(),
+    packages=find_packages(),
     setup_requires=SETUP_REQUIRES,
     install_requires=INSTALL_REQUIRES,
     tests_requires=TESTS_REQUIRES,
