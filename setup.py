@@ -24,9 +24,7 @@ EXTRAS_REQUIRE = {
 }
 
 ENTRY_POINTS = {
-    "console_scripts": {
-        "agent": "agent.main:main"
-    }
+    "console_scripts": ["agent=agent.main:main"]
 }
 
 
@@ -79,7 +77,7 @@ setup(
     packages=find_packages(),
     setup_requires=SETUP_REQUIRES,
     install_requires=INSTALL_REQUIRES,
-    tests_requires=TESTS_REQUIRES,
+    tests_require=TESTS_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
-    include_package_date=True,
+    include_package_data=True,
 )
