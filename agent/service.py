@@ -82,7 +82,7 @@ class Command:
         assert self.program, f"Can't find installation of: {program}"
 
     @pprint
-    def command(self, *args,  stdout=PIPE, stderr=PIPE, **kwargs):
+    def command(self, *args, stdout=PIPE, stderr=PIPE, **kwargs):
         """Using subprocess.Popen this function will execute
         the given command line
         """
