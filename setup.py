@@ -11,7 +11,9 @@ SETUP_REQUIRES = (
     "pytest-runner"
 )
 
-INSTALL_REQUIRES = ()
+INSTALL_REQUIRES = (
+    "wheel >= 0.34.2",
+)
 
 TESTS_REQUIRES = (
     "pytest",
@@ -80,4 +82,5 @@ setup(
     tests_require=TESTS_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     include_package_data=True,
+    python_requires=">=3.6"
 )
