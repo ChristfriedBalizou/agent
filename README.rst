@@ -1,7 +1,7 @@
 Context
 -------
 
-The agent package aim to easily create a Linux (systemd) service.
+The agent package is an systemd-service based, aim to easily create a service from a given git directory.
 
 This package will perform the following actions:
 
