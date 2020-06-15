@@ -111,14 +111,14 @@ check as described  https://www.freedesktop.org/software/systemd/man/systemd.ser
 *We set a timeout of 5s second this can't be currently updated.*
 
 - status:
-  Will perform a systemctl status <your service>.
+  Perform a systemctl status <your service>.
 
 - stop:
-  Will stop and delete all systemd services file created.
+  Stop and delete all systemd services file created.
 
 - start:
-  Will first call stop and create systemd service file for your application.
-  Will then systemd start <your service>
+  First call stop and create systemd service file for your application.
+  Then systemd start <your service>
 
 - restart:
-  Will reproduce stop and start.
+  Reproduce stop and start.
