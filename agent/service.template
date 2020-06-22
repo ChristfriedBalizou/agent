@@ -6,10 +6,6 @@ Description={description}
 [Service]
 Type={service}
 ExecStart=/bin/make --directory={makefile}
-Restart=always
-RestartSec=1
-TimeoutSec=5
-WatchdogSec=5
 
 [Install]
 WantedBy=multi-user.target
