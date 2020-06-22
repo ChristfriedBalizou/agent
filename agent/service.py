@@ -171,7 +171,7 @@ class Service:
         with open(os.path.join(BASE_DIRECTORY, "service.template")) as output:
             template = output.read().format(
                 description=f"Service {self.name}",
-                makefile=os.path.join(self.repository, "Makefile"),
+                makefile=self.repository,
                 service=self.service
             )
 
