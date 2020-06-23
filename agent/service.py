@@ -195,9 +195,9 @@ class Service:
             # the service does not even exist
             return
 
-        if self.status() == ServiceStat.RUNNING:
-            # The service is running and we need
-            # to stop it
+        if self.status() in [ServiceStat.INACTIVE, ServiceStat.RUNNING]:
+            # The service is running or disabled we need
+            # to stop it.
             self.program.command("stop", self.name)
 
         if os.path.exists(self.location[0]):
