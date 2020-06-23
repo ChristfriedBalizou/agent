@@ -172,7 +172,8 @@ class Service:
             template = output.read().format(
                 description=f"Service {self.name}",
                 makefile=self.repository,
-                service=self.service
+                service=self.service,
+                make=shutil.which("make"),
             )
 
         with open(self.location[0], "w") as out:

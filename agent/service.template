@@ -5,7 +5,7 @@ Description={description}
 
 [Service]
 Type={service}
-ExecStart=/bin/make --directory={makefile}
+ExecStart={make} --directory={makefile}
 
 [Install]
 WantedBy=multi-user.target
