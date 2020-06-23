@@ -54,9 +54,10 @@ def pprint(func):
     """This function aim to print the output of the cli command
     """
     def wrapper(*args, **kwargs):
+        verbose = kwargs.pop("verbose", True)
         outs, errs = func(*args, **kwargs)
 
-        if not outs or kwargs.pop("verbose", True) is False:
+        if not outs or verbose is False:
             # YOLO just don't wanted to have a nested for loop
             return outs, errs
 
