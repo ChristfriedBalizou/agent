@@ -56,7 +56,7 @@ def pprint(func):
     def wrapper(*args, **kwargs):
         outs, errs = func(*args, **kwargs)
 
-        if not outs:
+        if not outs or kwargs.get("verbose", False) is False:
             # YOLO just don't wanted to have a nested for loop
             return outs, errs
 
@@ -123,13 +123,16 @@ class Service:
             f"/etc/systemd/system/{self.name}.service",
         )
 
-    def status(self) -> ServiceStat:
+    def status(self, verbose: bool = True) -> ServiceStat:
         """This function return a given
         service status.
 
         None: The service does not exist
         True: The service is up and running
         False: The service is disabled or not stopped
+
+        Arguments:
+            verbose : only display status when status command is called
         """
 
         try:
@@ -190,15 +193,12 @@ class Service:
 
         The next status of a stopped service will be ServiceStat.NONEXISTENT
         """
-        if self.status() == ServiceStat.NONEXISTENT:
+        if self.status(verbose=False) == ServiceStat.NONEXISTENT:
             # There is nothing to at this state
             # the service does not even exist
             return
 
-        if self.status() in [ServiceStat.INACTIVE, ServiceStat.RUNNING]:
-            # The service is running or disabled we need
-            # to stop it.
-            self.program.command("stop", self.name)
+        self.program.command("stop", self.name)
 
         if os.path.exists(self.location[0]):
             os.remove(self.location[0])
