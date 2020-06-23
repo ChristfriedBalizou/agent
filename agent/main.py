@@ -31,7 +31,7 @@ def main():
 
     parser.add_argument(
         "--service-type",
-        choices=("simple"),
+        choices=("simple",),
         default="simple",
         help="""
         The type of service to create please visit systemd service
