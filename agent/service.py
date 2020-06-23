@@ -56,7 +56,7 @@ def pprint(func):
     def wrapper(*args, **kwargs):
         outs, errs = func(*args, **kwargs)
 
-        if not outs or kwargs.get("verbose", False) is False:
+        if not outs or kwargs.pop("verbose", True) is False:
             # YOLO just don't wanted to have a nested for loop
             return outs, errs
 
@@ -136,7 +136,11 @@ class Service:
         """
 
         try:
-            outs, errs = self.program.command("status", self.name)
+            outs, errs = self.program.command(
+                "status",
+                self.name,
+                verbose=verbose
+            )
 
             assert errs == "", errs
             # We want to raise and exception if an error
