@@ -120,7 +120,7 @@ class Service:
         self.service = service
         self.location = (
             f"/lib/systemd/system/{self.name}.service",
-            "/etc/systemd/system/{self.name}.service",
+            f"/etc/systemd/system/{self.name}.service",
         )
 
     def status(self) -> ServiceStat:
